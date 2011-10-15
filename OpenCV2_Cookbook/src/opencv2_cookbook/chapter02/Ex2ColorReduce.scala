@@ -15,7 +15,7 @@ import com.googlecode.javacv.cpp.opencv_core.CvMat
 /**
  * Reduce colors in the image by modifying color values in all bands the same way.
  */
-object Ex02ColorReduce extends App {
+object Ex2ColorReduce extends App {
 
     // Read input image
     val image = loadMatAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)

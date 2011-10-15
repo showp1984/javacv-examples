@@ -16,7 +16,7 @@ import com.googlecode.javacv.cpp.opencv_imgproc._
 /**
  * Use kernel convolution to sharpen an image.
  */
-object Ex03Sharpen extends App {
+object Ex3Sharpen extends App {
 
     // Read input image
     val image = loadAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)

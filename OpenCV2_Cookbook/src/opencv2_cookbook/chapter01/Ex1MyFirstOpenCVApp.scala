@@ -16,7 +16,7 @@ import javax.swing.JFrame._
  * corresponds to C++ example in Chapter 1 page 18.
  * Please note how in the Scala example code CanvasFrame from JavaCV API is used to display the image.
  */
-object Ex01MyFirstOpenCVApp extends App {
+object Ex1MyFirstOpenCVApp extends App {
 
     // read an image
     val image = cvLoadImage("../data/boldt.jpg")

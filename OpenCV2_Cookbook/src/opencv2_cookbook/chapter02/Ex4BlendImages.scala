@@ -15,7 +15,7 @@ import com.googlecode.javacv.cpp.opencv_highgui._
 /**
  * Blend two images using weighted addition.
  */
-object Ex04BlendImages extends App {
+object Ex4BlendImages extends App {
 
     // Read input image
     val image1 = loadAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)

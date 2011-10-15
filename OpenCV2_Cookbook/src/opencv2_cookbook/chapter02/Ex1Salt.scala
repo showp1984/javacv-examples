@@ -17,7 +17,7 @@ import util.Random
 /**
  * Set individual, randomly selected, pixels to a fixed value.
  */
-object Ex01Salt extends App {
+object Ex1Salt extends App {
 
     // Read input image
     val image = loadAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)

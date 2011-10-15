@@ -15,7 +15,7 @@ import com.googlecode.javacv.cpp.opencv_highgui._
 /**
  * Paste small image into a larger one using a region of interest. Mask is optional.
  */
-object Ex05ROILogo extends App {
+object Ex5ROILogo extends App {
 
     // Read input image
     val logo = loadAndShowOrExit(new File("../data/logo.bmp"), CV_LOAD_IMAGE_COLOR)
