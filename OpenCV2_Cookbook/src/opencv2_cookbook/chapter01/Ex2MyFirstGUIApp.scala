@@ -18,20 +18,16 @@ import java.awt.Cursor._
 
 
 /**
- * <p>
- *    The last section in the chapter 1 of the Cookbook demonstrates how to create a simple GUI application.
- *    The Cookbook is using Qt GUI Toolkit. This example is using Scala Swing to create an similar application.
- * </p>
- * <p>
- *    The application has two buttons on the left "Open Image" and "Process".
- *    The opened image is displayed in the middle.
- *    When "Process" button is pressed the image is flipped upside down and its red and blue channels are swapped.
- * </p>
- * <p>
- *    Unlike most of other examples in this module, this example is done the Scala way,
- *    without regard to for direct porting to Java.
- * </p>
- */
+  * The last section in the chapter 1 of the Cookbook demonstrates how to create a simple GUI application.
+  * The Cookbook is using Qt GUI Toolkit. This example is using Scala Swing to create an similar application.
+  *
+  * The application has two buttons on the left "Open Image" and "Process".
+  * The opened image is displayed in the middle.
+  * When "Process" button is pressed the image is flipped upside down and its red and blue channels are swapped.
+  *
+  * Unlike most of other examples in this module, this example is done the Scala way,
+  * without regard to for direct porting to Java.
+  */
 object Ex2MyFirstGUIApp extends SimpleSwingApplication {
 
     private lazy val fileChooser = new FileChooser
