@@ -6,15 +6,14 @@
 
 package opencv2_cookbook.chapter01
 
+import com.googlecode.javacv.cpp.opencv_core._
+import com.googlecode.javacv.cpp.opencv_highgui._
+import com.googlecode.javacv.cpp.opencv_imgproc._
 import swing._
 import swing.Dialog.Message.Error
 import swing.FileChooser.Result.Approve
-import com.googlecode.javacv.cpp.opencv_highgui._
-import com.googlecode.javacv.cpp.opencv_core._
-import com.googlecode.javacv.cpp.opencv_imgproc._
-import javax.swing.ImageIcon
-import com.googlecode.javacv.cpp.opencv_core.IplImage
 import java.awt.Cursor._
+import javax.swing.ImageIcon
 
 
 /**
@@ -26,11 +25,12 @@ import java.awt.Cursor._
  * When "Process" button is pressed the image is flipped upside down and its red and blue channels are swapped.
  *
  * Unlike most of other examples in this module, this example is done the Scala way,
- * without regard to for direct porting to Java.
+ * without regard to for direct porting to Java. A Java equivalent is in [[Ex2MyFirstGUIAppJava]].
  */
 object Ex2MyFirstGUIApp extends SimpleSwingApplication {
 
     private lazy val fileChooser = new FileChooser
+
 
     def top = new MainFrame {
         title = "My First GUI Scala App"
@@ -78,7 +78,6 @@ object Ex2MyFirstGUIApp extends SimpleSwingApplication {
         }
         processAction.enabled = false
 
-
         //
         // Create UI
         //
@@ -108,6 +107,7 @@ object Ex2MyFirstGUIApp extends SimpleSwingApplication {
         centerOnScreen()
     }
 
+
     /**
      * Ask user for location and open new image.
      */
@@ -127,6 +127,7 @@ object Ex2MyFirstGUIApp extends SimpleSwingApplication {
             None
         }
     }
+
 
     /**
      * Process image in place
