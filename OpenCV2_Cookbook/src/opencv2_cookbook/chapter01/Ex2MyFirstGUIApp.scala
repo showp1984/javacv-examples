@@ -18,21 +18,22 @@ import java.awt.Cursor._
 
 
 /**
-  * The last section in the chapter 1 of the Cookbook demonstrates how to create a simple GUI application.
-  * The Cookbook is using Qt GUI Toolkit. This example is using Scala Swing to create an similar application.
-  *
-  * The application has two buttons on the left "Open Image" and "Process".
-  * The opened image is displayed in the middle.
-  * When "Process" button is pressed the image is flipped upside down and its red and blue channels are swapped.
-  *
-  * Unlike most of other examples in this module, this example is done the Scala way,
-  * without regard to for direct porting to Java.
-  */
+ * The last section in the chapter 1 of the Cookbook demonstrates how to create a simple GUI application.
+ * The Cookbook is using Qt GUI Toolkit. This example is using Scala Swing to create an similar application.
+ *
+ * The application has two buttons on the left "Open Image" and "Process".
+ * The opened image is displayed in the middle.
+ * When "Process" button is pressed the image is flipped upside down and its red and blue channels are swapped.
+ *
+ * Unlike most of other examples in this module, this example is done the Scala way,
+ * without regard to for direct porting to Java.
+ */
 object Ex2MyFirstGUIApp extends SimpleSwingApplication {
 
     private lazy val fileChooser = new FileChooser
 
     def top = new MainFrame {
+        title = "My First GUI Scala App"
 
         // Variable for holding loaded image
         var image: Option[IplImage] = None
@@ -69,7 +70,7 @@ object Ex2MyFirstGUIApp extends SimpleSwingApplication {
                         processImage(x)
                         imageView.icon = new ImageIcon(x.getBufferedImage)
                     case None =>
-                        Dialog.showMessage(null, "Image not opened", title, Dialog.Message.Error)
+                        Dialog.showMessage(null, "Image not opened", title, Error)
                 }
             } finally {
                 cursor = getPredefinedCursor(DEFAULT_CURSOR)
@@ -91,9 +92,6 @@ object Ex2MyFirstGUIApp extends SimpleSwingApplication {
             contents += new Button(processAction)
             vGap = 5
         }
-
-        // Set frame title
-        title = "My First GUI Scala App"
 
         // Layout frame contents
         contents = new BorderPanel() {
