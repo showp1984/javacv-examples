@@ -14,6 +14,8 @@ import com.googlecode.javacv.cpp.opencv_core.CvMat
 
 /**
  * Reduce colors in the image by modifying color values in all bands the same way.
+ *
+ * Illustrates access to pixel values using absolute indexing.
  */
 object Ex2ColorReduce extends App {
 
@@ -35,7 +37,7 @@ object Ex2ColorReduce extends App {
     def colorReduce(image: CvMat, div: Int = 64): CvMat = {
 
         // Total number of elements, combining components from each channel
-        val nbElements = image.rows * image.cols * image.channels()
+        val nbElements = image.rows * image.cols * image.channels
         for (i <- 0 until nbElements) {
             // Convert to integer
             val v = image.get(i).toInt

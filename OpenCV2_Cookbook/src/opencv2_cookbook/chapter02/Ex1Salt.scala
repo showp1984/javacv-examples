@@ -14,6 +14,8 @@ import util.Random
 
 /**
  * Set individual, randomly selected, pixels to a fixed value.
+ *
+ * Illustrates access to pixel values using absolute indexing.
  */
 object Ex1Salt extends App {
 
