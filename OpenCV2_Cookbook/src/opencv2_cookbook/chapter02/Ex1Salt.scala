@@ -7,12 +7,10 @@
 package opencv2_cookbook.chapter02
 
 import opencv2_cookbook.OpenCVUtils._
-import java.io.File
 import com.googlecode.javacv.cpp.opencv_highgui._
-import com.googlecode.javacv.cpp.opencv_core.IplImage
-import opencv2_cookbook.OpenCVImageJUtils
+import com.googlecode.javacv.cpp.opencv_core.CvMat
+import java.io.File
 import util.Random
-
 
 /**
  * Set individual, randomly selected, pixels to a fixed value.
@@ -20,7 +18,8 @@ import util.Random
 object Ex1Salt extends App {
 
     // Read input image
-    val image = loadAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)
+    //    val image = loadAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)
+    val image = loadMatAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)
 
     // Add salt noise
     val dest = salt(image, 2000)
@@ -28,28 +27,27 @@ object Ex1Salt extends App {
     // Display
     show(dest, "Salted")
 
-
     /**
-     * Add 'salt' noise to a copy of the input image
-     * @param image input image
-     * @param n number of 'salt' grains
+     * Add 'salt' noise.
+     * @param image input image.
+     * @param n number of 'salt' grains.
      */
-    def salt(image: IplImage, n: Int): IplImage = {
-
-        // Convert to Image's ImageProcessor for easy pixel operations
-        val ip = OpenCVImageJUtils.toImageProcessor(image)
+    def salt(image: CvMat, n: Int): CvMat = {
 
         // Place 'n' white spots at random locations
-        val size = ip.getWidth * ip.getHeight
+        val size = image.rows * image.cols
+        val nbChannels = image.channels
         val random = new Random
         for (i <- 1 to n) {
             // Create random index of a pixel
             val index = random.nextInt(size)
-            // Set it to white
-            ip.set(index, 0xFFFFFF)
+            val offset = index * nbChannels
+            // Set it to white by setting each of the channels to max (255)
+            for (i <- 0 until nbChannels) {
+                image.put(offset + i, 255)
+            }
         }
 
-        // Convert ImageProcessor back to IplImage
-        IplImage.createFrom(OpenCVImageJUtils.toBufferedImage(ip))
+        image
     }
 }
