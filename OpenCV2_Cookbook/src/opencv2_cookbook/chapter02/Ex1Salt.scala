@@ -30,9 +30,9 @@ object Ex1Salt extends App {
 
 
     /**
-     * Add 'salt' noise to a copy of input image
+     * Add 'salt' noise to a copy of the input image
      * @param image input image
-     * @param number of 'salt' grains
+     * @param n number of 'salt' grains
      */
     def salt(image: IplImage, n: Int): IplImage = {
 
