@@ -25,7 +25,7 @@ import javax.swing.ImageIcon
  * When "Process" button is pressed the image is flipped upside down and its red and blue channels are swapped.
  *
  * Unlike most of other examples in this module, this example is done the Scala way,
- * without regard to for direct porting to Java. A Java equivalent is in [[Ex2MyFirstGUIAppJava]].
+ * without regard to for direct porting to Java. A Java equivalent is in [[opencv2_cookbook.chapter01.Ex2MyFirstGUIAppJava]].
  */
 object Ex2MyFirstGUIApp extends SimpleSwingApplication {
 
