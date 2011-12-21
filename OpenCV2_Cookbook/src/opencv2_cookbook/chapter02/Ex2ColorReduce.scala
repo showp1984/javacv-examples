@@ -28,26 +28,21 @@ object Ex2ColorReduce extends App {
 
 
     /**
-     * Add 'salt' noise to a copy of input image
-     * @param image input image
-     * @param number of 'salt' grains
+     * Reduce number of colors.
+     * @param image input image.
+     * @param div color reduction factor.
      */
     def colorReduce(image: CvMat, div: Int = 64): CvMat = {
 
-        // Number of lines
-        val maxY = image.rows
-        // total number of elements per line
-        val maxX = image.cols * image.channels()
-
-        for (y <- 0 until maxY) {
-            for (x <- 0 until maxX) {
-                // Convert to integer
-                val v: Int = image.get(x + y * maxX).asInstanceOf[Int]
-                // Use integer division to reduce number of values
-                val newV: Int = v / div * div + div / 2
-                // Put back into the image
-                image.put(x + y * maxX, newV)
-            }
+        // Total number of elements, combining components from each channel
+        val nbElements = image.rows * image.cols * image.channels()
+        for (i <- 0 until nbElements) {
+            // Convert to integer
+            val v = image.get(i).toInt
+            // Use integer division to reduce number of values
+            val newV = v / div * div + div / 2
+            // Put back into the image
+            image.put(i, newV)
         }
 
         image
