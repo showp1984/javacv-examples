@@ -14,6 +14,8 @@ import com.googlecode.javacv.cpp.opencv_highgui._
 
 /**
  * Paste small image into a larger one using a region of interest. Mask is optional.
+ *
+ * Illustrates operation on a small portion of the input image: a region of interest (ROI).
  */
 object Ex5ROILogo extends App {
 
@@ -22,6 +24,7 @@ object Ex5ROILogo extends App {
     val mask = loadAndShowOrExit(new File("../data/logo.bmp"), CV_LOAD_IMAGE_GRAYSCALE)
     val image = loadAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)
 
+    // Define region of interest that matches the size of the logo
     val roi = new IplROI()
     roi.xOffset(385)
     roi.yOffset(270)
@@ -30,8 +33,12 @@ object Ex5ROILogo extends App {
 
     val imageROI = image.roi(roi)
 
+    // Combine input image with the logo. Mask is used to control blending.
     cvCopy(logo, imageROI, mask)
 
     // Display
     show(image, "With Logo")
+
+    image.roi(null)
+    cvSaveImage("../logo_output.png", image)
 }
