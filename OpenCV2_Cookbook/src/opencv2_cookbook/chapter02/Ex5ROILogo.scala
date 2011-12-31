@@ -36,6 +36,11 @@ object Ex5ROILogo extends App {
     // Combine input image with the logo. Mask is used to control blending.
     cvCopy(logo, imageROI, mask)
 
+    // Clear ROI after processing is done.
+    // If ROI is not cleared further operations would apply to ROI only.
+    // For instance, if saving the image, only part within the ROI would be saved.
+    image.roi(null)
+
     // Display
     show(image, "With Logo")
 }
