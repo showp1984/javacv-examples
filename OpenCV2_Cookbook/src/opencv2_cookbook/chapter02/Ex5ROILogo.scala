@@ -38,7 +38,4 @@ object Ex5ROILogo extends App {
 
     // Display
     show(image, "With Logo")
-
-    image.roi(null)
-    cvSaveImage("../logo_output.png", image)
 }
