@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
@@ -20,8 +20,8 @@ import java.io.File
 object Ex4BlendImages extends App {
 
     // Read input images
-    val image1 = loadAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)
-    val image2 = loadAndShowOrExit(new File("../data/rain.jpg"), CV_LOAD_IMAGE_COLOR)
+    val image1 = loadAndShowOrExit(new File("data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)
+    val image2 = loadAndShowOrExit(new File("data/rain.jpg"), CV_LOAD_IMAGE_COLOR)
 
     // Define output image
     val result = cvCreateImage(cvGetSize(image1), image1.depth, 3)

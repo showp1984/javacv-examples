@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
@@ -19,7 +19,7 @@ import com.googlecode.javacv.cpp.opencv_core._
 object SURF_c extends App {
 
     // Read input image
-    val image = loadAndShowOrExit(new File("../data/church01.jpg"))
+    val image = loadAndShowOrExit(new File("data/church01.jpg"))
 
     // Setup SURF
     val keyPoints = new CvSeq()

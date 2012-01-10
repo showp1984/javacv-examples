@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
@@ -14,8 +14,8 @@ import com.googlecode.javacv.cpp.opencv_core.IplImage
 object OpenCVImageJUtils {
 
     /**
-     * Convert OpenCV IplImage to ImageJ's ImageProcessor. Depending on the type input image different instance
-     * of ImageProcessor will be created, for color images it will be ColorProcessor, for 8-bit gray level ByteProcessor.
+     * Convert OpenCV `IplImage` to ImageJ's ImageProcessor. Depending on the type input image different instance
+     * of `ImageProcessor` will be created, for color images it will be `ColorProcessor`, for 8-bit gray level `ByteProcessor`.
      * Other pixel types are currently not supported.
      *
      * @param image input image.
@@ -26,6 +26,21 @@ object OpenCVImageJUtils {
             case BufferedImage.TYPE_BYTE_GRAY => new ByteProcessor(bi)
             case BufferedImage.TYPE_3BYTE_BGR => new ColorProcessor(bi)
             case t => throw new IllegalArgumentException("Unsuported BufferedImage type " + t)
+        }
+    }
+
+    /**
+     * Convert OpenCV `IplImage` to ImageJ's `ColorProcessor`.
+     *
+     * @param image input image.
+     * @throws IllegalArgumentException if `IplImage` is not a color image.
+     */
+    def toColorProcessor(image: IplImage): ColorProcessor = {
+        val ip = toImageProcessor(image)
+        if (ip.isInstanceOf[ColorProcessor]) {
+            ip.asInstanceOf[ColorProcessor]
+        } else {
+            throw new IllegalArgumentException("Input image is not a color image.")
         }
     }
 

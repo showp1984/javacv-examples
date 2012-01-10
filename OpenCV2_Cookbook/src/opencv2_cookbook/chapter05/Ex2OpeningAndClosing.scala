@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
@@ -21,7 +21,7 @@ import opencv2_cookbook.OpenCVUtils._
 object Ex2OpeningAndClosing extends App {
 
     // Read input image
-    val image = loadAndShowOrExit(new File("../data/binary.bmp"))
+    val image = loadAndShowOrExit(new File("data/binary.bmp"))
 
     // Create 5x5 structural element
     val element5 = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_RECT, null)

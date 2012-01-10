@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
@@ -22,7 +22,7 @@ import opencv2_cookbook.OpenCVUtils._
 object Ex1ErodingAndDilating extends App {
 
     // Read input image
-    val image = loadAndShowOrExit(new File("../data/binary.bmp"))
+    val image = loadAndShowOrExit(new File("data/binary.bmp"))
 
     // Erode the image, by default 3x3 element is used
     val eroded = cvCreateImage(cvGetSize(image), image.depth, 1)

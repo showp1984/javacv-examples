@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
@@ -17,7 +17,7 @@ import opencv2_cookbook.OpenCVUtils._
 object SURF extends App {
 
     // Read input image
-    val image = loadAndShowOrExit(new File("../data/church01.jpg"))
+    val image = loadAndShowOrExit(new File("data/church01.jpg"))
 
     val keyPoints = new KeyPoint()
     val surf = new SurfFeatureDetector(2500d, 3, 4, true)

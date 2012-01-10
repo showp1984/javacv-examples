@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
@@ -19,7 +19,7 @@ import com.googlecode.javacv.cpp.opencv_imgproc._
 object Ex3Sharpen extends App {
 
     // Read input image
-    val image = loadAndShowOrExit(new File("../data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)
+    val image = loadAndShowOrExit(new File("data/boldt.jpg"), CV_LOAD_IMAGE_COLOR)
 
     // Define output image
     val dest = cvCreateImage(cvGetSize(image), image.depth, 3)
