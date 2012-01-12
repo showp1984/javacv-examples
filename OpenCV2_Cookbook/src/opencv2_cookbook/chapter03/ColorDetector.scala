@@ -10,6 +10,7 @@ import opencv2_cookbook.OpenCVImageJUtils._
 import com.googlecode.javacv.cpp.opencv_core.IplImage
 import ij.process.ByteProcessor
 import java.awt.Color
+import math._
 
 
 /**
