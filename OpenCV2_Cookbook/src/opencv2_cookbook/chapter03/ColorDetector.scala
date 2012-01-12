@@ -16,7 +16,7 @@ import math._
 /**
  * Example of using a strategy pattern in algorithm design.
  * The pattern encapsulates an algorithm into a separate class.
- * To run this example use [[opencv2_cookbook.chapter03.example1.Ex1ColorDetector]].
+ * To run this example use [[opencv2_cookbook.chapter03.Ex1ColorDetector]].
  *
  * The algorithm converts the input image to a binary by checking is pixel color is within a given distance from a desired color.
  * Pixels with color close to the desired color are white, other black.
