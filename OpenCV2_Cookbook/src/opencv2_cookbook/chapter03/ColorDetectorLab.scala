@@ -58,7 +58,12 @@ class ColorDetectorLab(private var _minDist: Int = 30,
 
         // Convert to ColorProcessor for easier pixel access
         val src = toColorProcessor(labImage)
+
+        // Create output image
         val dest = new ByteProcessor(src.getWidth, src.getHeight)
+
+        // Iterate through pixels and check if their distance from the target color is
+        // withing the distance threshold, if it is set `dest` to 255
         for (y <- 0 until src.getHeight) {
             for (x <- 0 until src.getWidth) {
                 // Need to remember that now Color is interpreted as L*a*b* scaled to (0-255), rather than RGB
@@ -75,7 +80,7 @@ class ColorDetectorLab(private var _minDist: Int = 30,
 
     @inline
     private def distance(color: Color): Double = {
-        // When converting to 8-bit representation L* is scaled, A8 and B* are only shifted.
+        // When converting to 8-bit representation L* is scaled, a* and b* are only shifted.
         // To make the distance calculations more proportional we scale here L* difference back.
         abs(_targetLab.bAsUInt8 - color.getRed) +
                 abs(_targetLab.aAsUInt8 - color.getGreen) +

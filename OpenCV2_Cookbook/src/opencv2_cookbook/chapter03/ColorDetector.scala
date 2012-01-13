@@ -41,9 +41,15 @@ class ColorDetector(private var _minDist: Int = 100,
     def targetColor_=(color: ColorRGB) {_target = color}
 
     def process(iplImage: IplImage): IplImage = {
-        // Convert to ColorProcessor for easier pixel access
+
+        // Convert to ImageJ's ColorProcessor for easier pixel access
         val src = toColorProcessor(iplImage)
+
+        // Create output image
         val dest = new ByteProcessor(src.getWidth, src.getHeight)
+
+        // Iterate through pixels and check if their distance from the target color is
+        // withing the distance threshold, if it is set `dest` to 255.
         for (y <- 0 until src.getHeight) {
             for (x <- 0 until src.getWidth) {
                 if (distance(src.getColor(x, y)) < _minDist) {
@@ -52,7 +58,7 @@ class ColorDetector(private var _minDist: Int = 100,
             }
         }
 
-        // Convert back to IplImage
+        // Convert back to OpenCV's IplImage
         IplImage.createFrom(toBufferedImage(dest))
     }
 
