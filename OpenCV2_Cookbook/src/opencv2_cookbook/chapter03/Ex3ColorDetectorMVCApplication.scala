@@ -8,6 +8,7 @@ package opencv2_cookbook.chapter03
 
 import com.googlecode.javacv.cpp.opencv_core.IplImage
 import java.awt.Cursor._
+import java.io.File
 import javax.swing.{JColorChooser, ImageIcon}
 import swing._
 import Dialog.Message.Error
@@ -21,9 +22,6 @@ import event.{ButtonClicked, ValueChanged}
  * This object corresponds to the MainWindow class in the C++ code.
  */
 object Ex3ColorDetectorMVCApplication extends SimpleSwingApplication {
-    private lazy val fileChooser = new FileChooser
-    private val controller = ColorDetectorController
-
 
     def top = new MainFrame {
         title = "Color Detector MVC"
@@ -38,8 +36,9 @@ object Ex3ColorDetectorMVCApplication extends SimpleSwingApplication {
         val imageView = new Label
 
         // Color Distance Threshold components
-        val colorDistanceLabel = new Label("Color Distance Threshold: ???")
-        colorDistanceLabel.horizontalAlignment = Alignment.Leading
+        val colorDistanceLabel = new Label("Color Distance Threshold: ???") {
+            horizontalAlignment = Alignment.Leading
+        }
         val colorDistanceSlider = new Slider() {
             min = 0
             max = 3 * 255
@@ -53,10 +52,10 @@ object Ex3ColorDetectorMVCApplication extends SimpleSwingApplication {
             processImageButton
         )
         reactions += {
-            case ButtonClicked(`openImageButton`) => onOpenImage()
-            case ButtonClicked(`selectColorButton`) => onSelectColor()
-            case ButtonClicked(`processImageButton`) => onProcessImage()
-            case ValueChanged(`colorDistanceSlider`) => onColorDistanceSliderChange()
+            case ButtonClicked(`openImageButton`) => Controller.onOpenImage()
+            case ButtonClicked(`selectColorButton`) => Controller.onSelectColor()
+            case ButtonClicked(`processImageButton`) => Controller.onProcessImage()
+            case ValueChanged(`colorDistanceSlider`) => Controller.onColorDistanceSliderChange()
         }
 
         // Create vertical buttons panel
@@ -106,90 +105,97 @@ object Ex3ColorDetectorMVCApplication extends SimpleSwingApplication {
         centerOnScreen()
 
         // Sync display for the first time
-        onColorDistanceSliderChange()
+        Controller.onColorDistanceSliderChange()
 
         /**
-         * Show the wit cursor while given code `op` is executing.
+         * Controller for the MainForm
          */
-        def waitCursor(op: => Unit) {
-            val previous = cursor
-            cursor = getPredefinedCursor(WAIT_CURSOR)
-            try {
-                op
-            } finally {
-                cursor = previous
+        object Controller {
+            private lazy val fileChooser = new FileChooser(new File("./data"))
+            private val colorDetectorController = ColorDetectorController
+
+            /**
+             * Ask user for location and open new image.
+             */
+            def onOpenImage() {
+                waitCursor {
+                    // Ask user for the location of the image file
+                    if (fileChooser.showOpenDialog(buttonsPanel) != Approve) {
+                        return
+                    }
+
+                    // Load the image
+                    val path = fileChooser.selectedFile.getAbsoluteFile
+                    if (path == null) {
+                        return;
+                    }
+
+                    // Load image and update display.
+                    if (colorDetectorController.setInputImage(path.getAbsolutePath)) {
+                        display(colorDetectorController.inputImage)
+                        processImageButton.enabled = true
+                    } else {
+                        Dialog.showMessage(buttonsPanel, "Cannot open image file: " + path, top.title, Error)
+                    }
+                }
+            }
+
+            /**
+             * Select target color.
+             */
+            def onSelectColor() {
+                waitCursor {
+                    val color = JColorChooser.showDialog(buttonsPanel.self, "Select Target Color", colorDetectorController.targetColor.toColor)
+                    if (color != null) {
+                        colorDetectorController.targetColor = new ColorRGB(color)
+                    }
+                }
+            }
+
+            /**
+             * Process input image.
+             */
+            def onProcessImage() {
+                waitCursor {
+                    // Process and update image display if image is loaded
+                    colorDetectorController.inputImage match {
+                        case Some(image) =>
+                            colorDetectorController.process()
+                            imageView.icon = new ImageIcon(colorDetectorController.result.get.getBufferedImage)
+                        case None => Dialog.showMessage(buttonsPanel, "Image not opened", title, Error)
+                    }
+                }
+            }
+
+            /**
+             * Set color distance threshold to current value of the `colorDistanceSlider`.
+             */
+            def onColorDistanceSliderChange() {
+                val value = colorDistanceSlider.value
+                colorDetectorController.colorDistanceThreshold = value
+                colorDistanceLabel.text = "Color Distance Threshold: " + value
+            }
+
+            /**
+             * Show the wit cursor while given code `op` is executing.
+             */
+            private def waitCursor(op: => Unit) {
+                val previous = cursor
+                cursor = getPredefinedCursor(WAIT_CURSOR)
+                try {
+                    op
+                } finally {
+                    cursor = previous
+                }
+            }
+
+            private def display(image: Option[IplImage]) {
+                image match {
+                    case Some(x) => imageView.icon = new ImageIcon(x.getBufferedImage)
+                    case None => {}
+                }
             }
         }
 
-        def display(image: Option[IplImage]) {
-            image match {
-                case Some(x) => imageView.icon = new ImageIcon(x.getBufferedImage)
-                case None => {}
-            }
-        }
-
-        /**
-         * Ask user for location and open new image.
-         */
-        def onOpenImage() {
-            waitCursor {
-                // Ask user for the location of the image file
-                if (fileChooser.showOpenDialog(buttonsPanel) != Approve) {
-                    return
-                }
-
-                // Load the image
-                val path = fileChooser.selectedFile.getAbsoluteFile
-                if (path == null) {
-                    return;
-                }
-
-                // Load image and update display.
-                if (controller.setInputImage(path.getAbsolutePath)) {
-                    display(controller.inputImage)
-                    processImageButton.enabled = true
-                } else {
-                    Dialog.showMessage(buttonsPanel, "Cannot open image file: " + path, top.title, Error)
-                    None
-                }
-            }
-        }
-
-        /**
-         * Select target color.
-         */
-        def onSelectColor() {
-            waitCursor {
-                val color = JColorChooser.showDialog(buttonsPanel.self, "Select Target Color", controller.targetColor)
-                if (color != null) {
-                    controller.targetColor = color
-                }
-            }
-        }
-
-        /**
-         * Process input image.
-         */
-        def onProcessImage() {
-            waitCursor {
-                // Process and update image display if image is loaded
-                controller.inputImage match {
-                    case Some(image) =>
-                        controller.process()
-                        imageView.icon = new ImageIcon(controller.result.get.getBufferedImage)
-                    case None =>
-                        Dialog.showMessage(buttonsPanel, "Image not opened", title, Error)
-                }
-            }
-        }
-
-        /**
-         * Set color distance threshold to current value of the `colorDistanceSlider`.
-         */
-        def onColorDistanceSliderChange() {
-            val value = colorDistanceSlider.value
-            controller.colorDistanceThreshold = value
-            colorDistanceLabel.text = "Color Distance Threshold: " + value
-        }
     }
 }

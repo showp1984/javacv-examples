@@ -8,7 +8,6 @@ package opencv2_cookbook.chapter03
 
 import com.googlecode.javacv.cpp.opencv_highgui._
 import com.googlecode.javacv.cpp.opencv_core.IplImage
-import java.awt.Color
 
 
 /**
@@ -62,7 +61,7 @@ object ColorDetectorController {
     /**
      * Set the color to be detected
      */
-    def targetColor_=(color: Color) {colorDetector.targetColor = color}
+    def targetColor_=(color: ColorRGB) {colorDetector.targetColor = color}
 
 
     /**

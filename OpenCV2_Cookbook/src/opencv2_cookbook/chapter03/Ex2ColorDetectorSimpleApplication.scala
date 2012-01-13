@@ -10,6 +10,7 @@ package opencv2_cookbook.chapter03
 import com.googlecode.javacv.CanvasFrame
 import com.googlecode.javacv.cpp.opencv_core.IplImage
 import java.awt.Cursor._
+import java.io.File
 import javax.swing.WindowConstants
 import swing._
 import FileChooser.Result.Approve
@@ -21,7 +22,7 @@ import Dialog.Message.Error
  */
 object Ex2ColorDetectorSimpleApplication extends SimpleSwingApplication {
 
-    private lazy val fileChooser = new FileChooser
+    private lazy val fileChooser = new FileChooser(new File("./data"))
     private lazy val controller = ColorDetectorController
 
     def top = new MainFrame {

@@ -34,7 +34,7 @@ import math._
 class ColorDetectorLab(private var _minDist: Int = 30,
                        // Need to remember that Color is interpreted here as L*a*b* scaled to (0-255), rather than RGB
                        // It as also stored as (b*, a*, L*)
-                       private var _targetLab: Color = new Color(-26 + 128, -9 + 128, (74 * 255) / 100)) {
+                       private var _targetLab: ColorLab = ColorLab(74, -9, -26)) {
 
 
     def colorDistanceThreshold = _minDist
@@ -43,7 +43,7 @@ class ColorDetectorLab(private var _minDist: Int = 30,
 
     def targetColor = _targetLab
 
-    def targetColor_=(color: Color) {_targetLab = color}
+    def targetColor_=(color: ColorLab) {_targetLab = color}
 
     def process(rgbImage: IplImage): IplImage = {
 
@@ -73,11 +73,12 @@ class ColorDetectorLab(private var _minDist: Int = 30,
         IplImage.createFrom(toBufferedImage(dest))
     }
 
+    @inline
     private def distance(color: Color): Double = {
         // When converting to 8-bit representation L* is scaled, A8 and B* are only shifted.
         // To make the distance calculations more proportional we scale here L* difference back.
-        abs(_targetLab.getRed - color.getRed) +
-                abs(_targetLab.getGreen - color.getGreen) +
-                abs(_targetLab.getBlue - color.getBlue) / 255d * 100d
+        abs(_targetLab.bAsUInt8 - color.getRed) +
+                abs(_targetLab.aAsUInt8 - color.getGreen) +
+                abs(_targetLab.lAsUInt8 - color.getBlue) / 255d * 100d
     }
 }

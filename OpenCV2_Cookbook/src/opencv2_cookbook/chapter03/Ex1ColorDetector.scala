@@ -8,7 +8,6 @@ package opencv2_cookbook.chapter03
 
 import opencv2_cookbook.OpenCVUtils._
 import com.googlecode.javacv.cpp.opencv_highgui._
-import java.awt.Color
 import java.io.File
 
 /**
@@ -28,8 +27,8 @@ object Ex1ColorDetector extends App {
 
     // 3. Set the input parameters
     colorDetector.colorDistanceThreshold = 100
-    colorDetector.targetColor = new Color(130, 190, 230)
     // here blue sky
+    colorDetector.targetColor = new ColorRGB(130, 190, 230)
 
     // 4. Process that input image and display the result
     val dest = colorDetector.process(src)

@@ -9,7 +9,6 @@ package opencv2_cookbook.chapter03
 import opencv2_cookbook.OpenCVImageJUtils._
 import com.googlecode.javacv.cpp.opencv_core.IplImage
 import ij.process.ByteProcessor
-import java.awt.Color
 import math._
 
 
@@ -30,7 +29,7 @@ import math._
  * it is create only when needed.
  */
 class ColorDetector(private var _minDist: Int = 100,
-                    private var _target: Color = new Color(130, 190, 230)) {
+                    private var _target: ColorRGB = ColorRGB(130, 190, 230)) {
 
 
     def colorDistanceThreshold = _minDist
@@ -39,7 +38,7 @@ class ColorDetector(private var _minDist: Int = 100,
 
     def targetColor = _target
 
-    def targetColor_=(color: Color) {_target = color}
+    def targetColor_=(color: ColorRGB) {_target = color}
 
     def process(iplImage: IplImage): IplImage = {
         // Convert to ColorProcessor for easier pixel access
@@ -47,7 +46,6 @@ class ColorDetector(private var _minDist: Int = 100,
         val dest = new ByteProcessor(src.getWidth, src.getHeight)
         for (y <- 0 until src.getHeight) {
             for (x <- 0 until src.getWidth) {
-
                 if (distance(src.getColor(x, y)) < _minDist) {
                     dest.set(x, y, 255)
                 }
@@ -58,7 +56,8 @@ class ColorDetector(private var _minDist: Int = 100,
         IplImage.createFrom(toBufferedImage(dest))
     }
 
+    @inline
     private def distance(color: java.awt.Color): Double = {
-        abs(_target.getRed - color.getRed) + abs(_target.getGreen - color.getGreen) + abs(_target.getBlue - color.getBlue)
+        abs(_target.red - color.getRed) + abs(_target.green - color.getGreen) + abs(_target.blue - color.getBlue)
     }
 }
