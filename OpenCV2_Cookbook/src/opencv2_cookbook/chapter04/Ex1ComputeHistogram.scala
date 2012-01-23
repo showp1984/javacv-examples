@@ -3,7 +3,6 @@
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
-
 package opencv2_cookbook.chapter04
 
 import opencv2_cookbook.OpenCVUtils._

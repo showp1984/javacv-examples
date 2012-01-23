@@ -3,14 +3,7 @@
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
-
 package opencv2_cookbook.chapter04
-
-/*
- * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
- *
- * Author's e-mail: jarek.listy at gmail.com
- */
 
 import opencv2_cookbook.OpenCVUtils._
 import com.googlecode.javacv.cpp.opencv_highgui._
