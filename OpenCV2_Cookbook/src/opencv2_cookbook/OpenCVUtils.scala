@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Jarek Sacha. All Rights Reserved.
+ * Copyright (c) 2011-2012 Jarek Sacha. All Rights Reserved.
  *
  * Author's e-mail: jarek.listy at gmail.com
  */
@@ -7,13 +7,13 @@
 package opencv2_cookbook
 
 import com.googlecode.javacv.CanvasFrame
-import javax.swing.JFrame
+import com.googlecode.javacv.cpp.opencv_core._
+import com.googlecode.javacv.cpp.opencv_features2d.KeyPoint
 import com.googlecode.javacv.cpp.opencv_highgui._
 import java.awt.{Color, Graphics2D, Image}
 import java.awt.geom.Ellipse2D
-import com.googlecode.javacv.cpp.opencv_core._
-import com.googlecode.javacv.cpp.opencv_features2d.KeyPoint
 import java.io.{FileNotFoundException, IOException, File}
+import javax.swing.JFrame
 
 
 object OpenCVUtils {
@@ -26,11 +26,11 @@ object OpenCVUtils {
      * @param file image file
      * @param flags Flags specifying the color type of a loaded image:
      * <ul>
-     *     <li> {@code >0} Return a 3-channel color image</li>
-     *     <li> {@code =0} Return a grayscale image</li>
-     *     <li> {@code <0} Return the loaded image as is. Note that in the current implementation
+     *     <li> `>0` Return a 3-channel color image</li>
+     *     <li> `=0` Return a grayscale image</li>
+     *     <li> `<0` Return the loaded image as is. Note that in the current implementation
      *     the alpha channel, if any, is stripped from the output image. For example, a 4-channel
-     *     RGBA image is loaded as RGB if flags {@code >} 0.</li>
+     *     RGBA image is loaded as RGB if the `flags` is greater than 0.</li>
      * </ul>
      * Default is grayscale.
      * @return Loaded image
@@ -58,15 +58,15 @@ object OpenCVUtils {
      * @param file image file
      * @param flags Flags specifying the color type of a loaded image:
      * <ul>
-     *     <li> {@code >0} Return a 3-channel color image</li>
-     *     <li> {@code =0} Return a grayscale image</li>
-     *     <li> {@code <0} Return the loaded image as is. Note that in the current implementation
+     *     <li> `>0` Return a 3-channel color image</li>
+     *     <li> `=0` Return a grayscale image</li>
+     *     <li> `<0` Return the loaded image as is. Note that in the current implementation
      *     the alpha channel, if any, is stripped from the output image. For example, a 4-channel
-     *     RGBA image is loaded as RGB if flags {@code >} 0.</li>
+     *     RGBA image is loaded as RGB if the `flags` is greater than 0.</li>
      * </ul>
      * Default is grayscale.
-     * @throw FileNotFoundException when file does not exist
-     * @throw IOException when image cannot be read
+     * @throws FileNotFoundException when file does not exist
+     * @throws IOException when image cannot be read
      * @return Loaded image
      */
     def load(file: File, flags: Int = CV_LOAD_IMAGE_GRAYSCALE): IplImage = {
@@ -87,11 +87,11 @@ object OpenCVUtils {
      * Load an image and show in a CanvasFrame. If image cannot be loaded the application will exit with code 1.
      * @param flags Flags specifying the color type of a loaded image:
      * <ul>
-     *     <li> {@code >0} Return a 3-channel color image</li>
-     *     <li> {@code =0} Return a grayscale image</li>
-     *     <li> {@code <0} Return the loaded image as is. Note that in the current implementation
+     *     <li> `>0` Return a 3-channel color image</li>
+     *     <li> `=0` Return a grayscale image</li>
+     *     <li> `<0` Return the loaded image as is. Note that in the current implementation
      *     the alpha channel, if any, is stripped from the output image. For example, a 4-channel
-     *     RGBA image is loaded as RGB if flags {@code >} 0.</li>
+     *     RGBA image is loaded as RGB if the `flags` is greater than 0.</li>
      * </ul>
      * Default is grayscale.
      * @return loaded image
@@ -108,11 +108,11 @@ object OpenCVUtils {
      * Load an image. If image cannot be loaded the application will exit with code 1.
      * @param flags Flags specifying the color type of a loaded image:
      * <ul>
-     *     <li> {@code >0} Return a 3-channel color image</li>
-     *     <li> {@code =0} Return a grayscale image</li>
-     *     <li> {@code <0} Return the loaded image as is. Note that in the current implementation
+     *     <li> `>0` Return a 3-channel color image</li>
+     *     <li> `=0` Return a grayscale image</li>
+     *     <li> `<0` Return the loaded image as is. Note that in the current implementation
      *     the alpha channel, if any, is stripped from the output image. For example, a 4-channel
-     *     RGBA image is loaded as RGB if flags {@code >} 0.</li>
+     *     RGBA image is loaded as RGB if the `flags` is greater than 0.</li>
      * </ul>
      * Default is grayscale.
      * @return loaded image
@@ -139,7 +139,7 @@ object OpenCVUtils {
 
 
     /**
-     * Convert in {@code CvMat} object to {@code IplImage}.
+     * Convert in `CvMat` object to `IplImage`.
      */
     def toIplImage(mat: CvMat): IplImage = {
         val image = cvCreateImage(mat.cvSize(), mat.elemSize(), 1)
