@@ -103,4 +103,19 @@ class Histogram1D {
 
         canvas
     }
+
+    /**
+     * Apply a look-up table to an image.
+     * @param src input image
+     * @param lut look-up table
+     * @return new image
+     */
+    def applyLookUp(src: IplImage, lut: CvMat): IplImage = {
+        // Create out put image of the same size and type as input
+        val dest = cvCreateImage(cvGetSize(src), src.depth, src.nChannels)
+        // Apply look-up
+        cvLUT(src, dest, lut)
+
+        dest
+    }
 }
