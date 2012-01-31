@@ -13,6 +13,46 @@ import java.awt.image.BufferedImage
 import java.awt.Color
 
 /**
+ * Helper methods for performing histogram and look-up table operations, correspond to part of C++ class
+ * Histogram1D in the OpenCV2 Cookbook sample code.
+ */
+object Histogram1D {
+    /**
+     * Apply a look-up table to an image.
+     * It is a wrapper for OpenCV function `cvLUT`.
+     * @param src input image
+     * @param lut look-up table
+     * @return new image
+     */
+    def applyLookUp(src: IplImage, lut: CvMat): IplImage = {
+        // Create out put image of the same size and type as input
+        val dest = cvCreateImage(cvGetSize(src), src.depth, src.nChannels)
+
+        // Apply look-up
+        cvLUT(src, dest, lut)
+
+        dest
+    }
+
+    /**
+     * Equalize histogram of an image. The algorithm normalizes the brightness and increases the contrast of the image.
+     * It is a wrapper for OpenCV function `cvEqualizeHist`.
+     * @param src input image
+     * @return new image
+     */
+    def equalize(src: IplImage): IplImage = {
+        // Create out put image of the same size and type as input
+        val dest = cvCreateImage(cvGetSize(src), src.depth, src.nChannels)
+
+        // Equalize histogram
+        cvEqualizeHist(src, dest)
+
+        dest
+    }
+
+}
+
+/**
  * Helper class that simplifies usage of OpenCV `cv::calcHist` function for single channel images.
  *
  * See OpenCV [[http://opencv.itseez.com/modules/imgproc/doc/histograms.html?highlight=histogram]] documentation to learn backend details..
@@ -37,7 +77,7 @@ class Histogram1D {
      * @param image input image
      * @return OpenCV histogram object
      */
-    private def getHistogram(image: IplImage): CvHistogram = {
+    def getHistogram(image: IplImage): CvHistogram = {
         // Allocate histogram object
         val dims = 1
         val sizes = Array(numberOfBins)
@@ -102,20 +142,5 @@ class Histogram1D {
         g.dispose()
 
         canvas
-    }
-
-    /**
-     * Apply a look-up table to an image.
-     * @param src input image
-     * @param lut look-up table
-     * @return new image
-     */
-    def applyLookUp(src: IplImage, lut: CvMat): IplImage = {
-        // Create out put image of the same size and type as input
-        val dest = cvCreateImage(cvGetSize(src), src.depth, src.nChannels)
-        // Apply look-up
-        cvLUT(src, dest, lut)
-
-        dest
     }
 }

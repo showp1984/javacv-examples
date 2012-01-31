@@ -27,7 +27,7 @@ object Ex5InvertLut extends App {
     }
 
     // Apply look-up
-    val dest = new Histogram1D().applyLookUp(src, lut)
+    val dest = Histogram1D.applyLookUp(src, lut)
 
     // Show inverted image
     show(dest, "Inverted LUT")
