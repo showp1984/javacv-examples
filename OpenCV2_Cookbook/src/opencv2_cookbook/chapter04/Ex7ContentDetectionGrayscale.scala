@@ -22,7 +22,7 @@ import java.io.File
 object Ex7ContentDetectionGrayscale extends App {
 
     // Load image as a grayscale
-    val src = load(new File("data/waves.jpg"), CV_LOAD_IMAGE_GRAYSCALE)
+    val src = loadOrExit(new File("data/waves.jpg"), CV_LOAD_IMAGE_GRAYSCALE)
 
     // Display image with marked ROI
     val rect = new Rectangle(360, 44, 40, 50)

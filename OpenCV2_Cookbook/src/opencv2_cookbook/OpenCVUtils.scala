@@ -37,7 +37,7 @@ object OpenCVUtils {
      */
     def loadAndShowOrExit(file: File, flags: Int = CV_LOAD_IMAGE_GRAYSCALE): IplImage = {
         try {
-            val image = load(file, flags)
+            val image = loadOrExit(file, flags)
             show(image, file.getName)
             image
         }
@@ -51,9 +51,7 @@ object OpenCVUtils {
 
 
     /**
-     * Load an image.
-     *
-     * If image cannot be loaded the application will exit with code 1.
+     * Load an image, if image cannot be loaded the application will exit with code 1.
      *
      * @param file image file
      * @param flags Flags specifying the color type of a loaded image:
@@ -69,7 +67,7 @@ object OpenCVUtils {
      * @throws IOException when image cannot be read
      * @return Loaded image
      */
-    def load(file: File, flags: Int = CV_LOAD_IMAGE_GRAYSCALE): IplImage = {
+    def loadOrExit(file: File, flags: Int = CV_LOAD_IMAGE_GRAYSCALE): IplImage = {
         // Verify file
         if (!file.exists()) {
             throw new FileNotFoundException("Image file does not exist: " + file.getAbsolutePath)
