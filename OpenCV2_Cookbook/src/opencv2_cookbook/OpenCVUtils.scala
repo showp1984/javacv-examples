@@ -10,10 +10,11 @@ import com.googlecode.javacv.CanvasFrame
 import com.googlecode.javacv.cpp.opencv_core._
 import com.googlecode.javacv.cpp.opencv_features2d.KeyPoint
 import com.googlecode.javacv.cpp.opencv_highgui._
-import java.awt.{Color, Graphics2D, Image}
 import java.awt.geom.Ellipse2D
 import java.io.{FileNotFoundException, IOException, File}
 import javax.swing.JFrame
+import java.awt._
+import image.BufferedImage
 
 
 object OpenCVUtils {
@@ -137,16 +138,6 @@ object OpenCVUtils {
 
 
     /**
-     * Convert in `CvMat` object to `IplImage`.
-     */
-    def toIplImage(mat: CvMat): IplImage = {
-        val image = cvCreateImage(mat.cvSize(), mat.elemSize(), 1)
-        cvGetImage(mat, image)
-        image
-    }
-
-
-    /**
      * Show image in a window. Closing the window will exit the application.
      */
     def show(mat: CvMat, title: String) {
@@ -219,6 +210,26 @@ object OpenCVUtils {
         bi
     }
 
+
+    /**
+     *  Draw a shape on an image.
+     * @param image input image
+     * @param overlay shape to draw
+     * @param color color to use
+     * @return new image with drawn overlay
+     */
+    def drawOnImage(image: IplImage, overlay: Shape, color: Color = Color.RED): Image = {
+        val bi = image.getBufferedImage
+        val canvas = new BufferedImage(bi.getWidth, bi.getHeight, BufferedImage.TYPE_INT_RGB)
+        val g = canvas.createGraphics()
+        g.drawImage(bi, 0, 0, null)
+        g.setPaint(color)
+        g.draw(overlay)
+        g.dispose()
+        canvas
+    }
+
+
     /**
      * Save the image to the specified file.
      * The image format is chosen based on the filename extension (see `imread()` in OpenCV documentation for the list of extensions).
@@ -231,5 +242,101 @@ object OpenCVUtils {
      */
     def save(file: File, image: CvArr) {
         cvSaveImage(file.getAbsolutePath, image)
+    }
+
+    /**
+     * Scale input image pixel values so the minimum value is 0 and maximum is 1.
+     * This mostly used to prepare a gray scale floating point images for display.
+     * @param image input image
+     * @return 32 bit floating point image (depth = `IPL_DEPTH_32F`).
+     */
+    def scaleTo01(image: IplImage): IplImage = {
+        val min = Array(Double.MaxValue)
+        val max = Array(Double.MinValue)
+        cvMinMaxLoc(image, min, max, null, null, null)
+        val scale = 1 / (max(0) - min(0))
+        val imageScaled = cvCreateImage(cvGetSize(image), IPL_DEPTH_32F, image.nChannels)
+        cvConvertScale(image, imageScaled, scale, 0)
+        imageScaled
+    }
+
+
+    /**
+     * Convert in `CvMat` object to `IplImage`.
+     */
+    def toIplImage(mat: CvMat): IplImage = {
+        val image = cvCreateImage(mat.cvSize(), mat.elemSize(), 1)
+        cvGetImage(mat, image)
+        image
+    }
+
+
+    /**
+     * Convert `IplImage` to one where pixels are represented as 32 floating point numbers (`IPL_DEPTH_32F`).
+     * It creates a copy of the input image.
+     * @param src input image.
+     * @return copy of the input with pixels values represented as 32 floating point numbers
+     */
+    def toIplImage32F(src: IplImage): IplImage = {
+        val dest = cvCreateImage(cvGetSize(src), IPL_DEPTH_32F, src.nChannels)
+        cvConvertScale(src, dest, 1, 0)
+        dest
+    }
+
+    /**
+     * Convert `IplImage` to one where pixels are represented as 8 bit unsigned integers (`IPL_DEPTH_8U`).
+     * It creates a copy of the input image.
+     * @param src input image.
+     * @return copy of the input with pixels values represented as 32 floating point numbers
+     */
+    def toIplImage8U(src: IplImage, doScaling: Boolean = true): IplImage = {
+        val min = Array(Double.MaxValue)
+        val max = Array(Double.MinValue)
+        cvMinMaxLoc(src, min, max, null, null, null)
+        val (scale, offset) =
+            if (doScaling) {
+                (255 / (max(0) - min(0)), -min(0))
+            } else {
+                (1d, 0d)
+            }
+
+
+        val dest = cvCreateImage(cvGetSize(src), IPL_DEPTH_8U, src.nChannels)
+        cvConvertScale(src, dest, scale, offset)
+        dest
+    }
+
+
+    /**
+     * Create an `IplROI`.
+     * @param x top left corner of the ROI
+     * @param y top left corner of the ROI
+     * @param width width of the ROI
+     * @param height height of the ROI
+     * @return new IplROI object.
+     */
+    def toIplROI(x: Int, y: Int, width: Int, height: Int): IplROI = {
+        toIplROI(new Rectangle(x, y, width, height))
+    }
+
+    /**
+     * Convert a rectangle to `IplROI`.
+     * @param r rectangle defining location of an ROI.
+     * @return new IplROI object.
+     */
+    def toIplROI(r: Rectangle): IplROI = {
+        val roi = new IplROI()
+        roi.xOffset(r.x)
+        roi.yOffset(r.y)
+        roi.width(r.width)
+        roi.height(r.height)
+        roi
+    }
+
+    /**
+     * Convert `CvRect` to AWT `Rectangle`.
+     */
+    def toRectangle(rect: CvRect): Rectangle = {
+        new Rectangle(rect.x, rect.y, rect.width, rect height)
     }
 }
