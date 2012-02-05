@@ -10,11 +10,12 @@ import com.googlecode.javacv.CanvasFrame
 import com.googlecode.javacv.cpp.opencv_core._
 import com.googlecode.javacv.cpp.opencv_features2d.KeyPoint
 import com.googlecode.javacv.cpp.opencv_highgui._
+
+import java.awt._
+import java.awt.image.BufferedImage
 import java.awt.geom.Ellipse2D
 import java.io.{FileNotFoundException, IOException, File}
 import javax.swing.JFrame
-import java.awt._
-import image.BufferedImage
 
 
 object OpenCVUtils {
@@ -268,6 +269,14 @@ object OpenCVUtils {
         val image = cvCreateImage(mat.cvSize(), mat.elemSize(), 1)
         cvGetImage(mat, image)
         image
+    }
+
+    /**
+     * Convert in `IplImage` object to `CvMat`.
+     *
+     */
+    def toCvMat(image: IplImage): CvMat = {
+        cvGetMat(image, new CvMat(), null, 0)
     }
 
 
