@@ -14,7 +14,7 @@ import java.io.File
  * Modifies image using histogram equalization.
  * Example for section "Equalizing the image histogram" in Chapter 4.
  */
-object Ex6EqualizeHistogram extends App {
+object Ex5EqualizeHistogram extends App {
 
     // Load image as a grayscale
     val src = loadAndShowOrExit(new File("data/group.jpg"), CV_LOAD_IMAGE_GRAYSCALE)
