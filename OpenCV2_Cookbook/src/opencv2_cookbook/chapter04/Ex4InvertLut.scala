@@ -15,7 +15,7 @@ import java.io.File
  * Creates inverted image by inverting its look-up table.
  * Example for section "Applying look-up table to modify image appearance" in Chapter 4.
  */
-object Ex5InvertLut extends App {
+object Ex4InvertLut extends App {
 
     // Load image as a grayscale
     val src = loadAndShowOrExit(new File("data/group.jpg"), CV_LOAD_IMAGE_GRAYSCALE)
