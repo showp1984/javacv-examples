@@ -9,6 +9,7 @@ package opencv2_cookbook.chapter04
 import com.googlecode.javacv.cpp.opencv_core._
 import com.googlecode.javacv.cpp.opencv_imgproc._
 import com.googlecode.javacv.cpp.opencv_legacy._
+
 import java.awt.image.BufferedImage
 import java.awt.Color
 
@@ -63,7 +64,7 @@ class Histogram1D {
     var _minRange = 0.0f
     var _maxRange = 255.0f
 
-    private def setRanges(minRange: Float, maxRange: Float) {
+    def setRanges(minRange: Float, maxRange: Float) {
         _minRange = minRange
         _maxRange = maxRange
     }
@@ -75,9 +76,10 @@ class Histogram1D {
      *  # CvHistogram has to be manually deallocated after use.
      *
      * @param image input image
+     * @param mask optional mask
      * @return OpenCV histogram object
      */
-    def getHistogram(image: IplImage): CvHistogram = {
+    def getHistogram(image: IplImage, mask: IplImage = null): CvHistogram = {
         // Allocate histogram object
         val dims = 1
         val sizes = Array(numberOfBins)
@@ -87,7 +89,6 @@ class Histogram1D {
 
         // Compute histogram
         val accumulate = 0
-        val mask = null
         cvCalcHist(Array(image), hist, accumulate, mask)
         hist
     }
