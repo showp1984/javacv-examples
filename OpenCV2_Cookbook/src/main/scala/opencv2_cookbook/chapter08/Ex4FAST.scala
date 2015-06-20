@@ -9,7 +9,8 @@ package opencv2_cookbook.chapter08
 import java.io.File
 
 import opencv2_cookbook.OpenCVUtils._
-import org.bytedeco.javacpp.opencv_features2d.{FastFeatureDetector, KeyPoint}
+import org.bytedeco.javacpp.opencv_core.KeyPointVector
+import org.bytedeco.javacpp.opencv_features2d.FastFeatureDetector
 
 /**
  * The example for section "Detecting FAST features" in Chapter 8, page 203.
@@ -20,10 +21,11 @@ object Ex4FAST extends App {
   val image = loadAndShowOrExit(new File("data/church01.jpg"))
 
   // Detect FAST features
-  val ffd = new FastFeatureDetector(
+  val ffd = FastFeatureDetector.create(
     40 /* threshold for detection */ ,
-    true /* non-max suppression */)
-  val keyPoints = new KeyPoint()
+    true /* non-max suppression */ ,
+    FastFeatureDetector.TYPE_9_16)
+  val keyPoints = new KeyPointVector()
   ffd.detect(image, keyPoints)
 
   // Draw keyPoints

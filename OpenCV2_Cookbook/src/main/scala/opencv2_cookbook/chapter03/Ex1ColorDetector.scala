@@ -9,7 +9,7 @@ package opencv2_cookbook.chapter03
 import java.io.File
 
 import opencv2_cookbook.OpenCVUtils._
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_imgcodecs._
 
 /**
  * Example for section "Using the Strategy pattern in algorithm design" in Chapter 3.

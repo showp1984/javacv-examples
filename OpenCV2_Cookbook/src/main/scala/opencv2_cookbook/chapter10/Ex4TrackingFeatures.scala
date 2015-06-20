@@ -6,7 +6,7 @@
 
 package opencv2_cookbook.chapter10
 
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_videoio._
 
 
 /** The example for section "Tracking feature points in video" in Chapter 10, page 266.

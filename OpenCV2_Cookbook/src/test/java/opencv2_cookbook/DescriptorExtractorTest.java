@@ -6,7 +6,7 @@
 
 package opencv2_cookbook;
 
-import org.bytedeco.javacpp.opencv_features2d.DescriptorExtractor;
+import org.bytedeco.javacpp.opencv_xfeatures2d.SURF;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -22,7 +22,7 @@ public final class DescriptorExtractorTest {
 
         // Test for bug https://github.com/bytedeco/javacpp-presets/issues/3
 
-        DescriptorExtractor surfDesc = DescriptorExtractor.create("SURF");
+        SURF surfDesc = SURF.create();
         assertNotNull(surfDesc);
     }
 }

@@ -6,10 +6,10 @@
 
 package opencv2_cookbook;
 
+import org.bytedeco.javacpp.opencv_core.DMatch;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.bytedeco.javacpp.opencv_features2d.DMatch;
 import static org.junit.Assert.assertNotNull;
 
 

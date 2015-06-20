@@ -6,7 +6,7 @@
 
 package opencv2_cookbook.chapter10
 
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_videoio._
 
 
 /** The first example for section "Extracting the foreground objects in video" in Chapter 10, page 272.

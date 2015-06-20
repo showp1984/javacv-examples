@@ -10,7 +10,7 @@ import javax.swing.JFrame
 
 import opencv2_cookbook.OpenCVUtils._
 import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_videoio._
 import org.bytedeco.javacv.CanvasFrame
 
 /** Video processor.

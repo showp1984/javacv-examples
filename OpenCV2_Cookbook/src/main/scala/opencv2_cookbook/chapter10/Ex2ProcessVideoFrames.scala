@@ -7,8 +7,8 @@
 package opencv2_cookbook.chapter10
 
 import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_highgui._
 import org.bytedeco.javacpp.opencv_imgproc._
+import org.bytedeco.javacpp.opencv_videoio._
 
 
 /** The example for section "Processing the video frames" in Chapter 10, page 251.

@@ -11,7 +11,7 @@ import java.io.File
 import opencv2_cookbook.OpenCVUtils._
 import org.bytedeco.javacpp.opencv_core._
 import org.bytedeco.javacpp.opencv_features2d._
-import org.bytedeco.javacpp.opencv_nonfree.SURF
+import org.bytedeco.javacpp.opencv_xfeatures2d.SURF
 
 /** Example for section "Describing SURF features" in chapter 8, page 212.
   *
@@ -32,10 +32,10 @@ object Ex7DescribingSURF extends App {
   val nOctaveLayers = 2
   val extended = true
   val upright = false
-  val surf = new SURF(hessianThreshold, nOctaves, nOctaveLayers, extended, upright)
+  val surf = SURF.create(hessianThreshold, nOctaves, nOctaveLayers, extended, upright)
   //    val surfDesc = DescriptorExtractor.create("SURF")
-  val surfDesc = DescriptorExtractor.create("SURF")
-  val keyPoints = Array(new KeyPoint(), new KeyPoint())
+  //  val surfDesc = SurfDescriptorExtractor.create("SURF")
+  val keyPoints = Array(new KeyPointVector(), new KeyPointVector())
   val descriptors = new Array[Mat](2)
 
   // Detect SURF features and compute descriptors for both images
@@ -43,13 +43,13 @@ object Ex7DescribingSURF extends App {
     surf.detect(images(i), keyPoints(i))
     // Create CvMat initialized with empty pointer, using simply `new CvMat()` leads to an exception.
     descriptors(i) = new Mat()
-    surfDesc.compute(images(i), keyPoints(i), descriptors(i))
+    surf.compute(images(i), keyPoints(i), descriptors(i))
   }
 
   // Create feature matcher
   val matcher = new BFMatcher(NORM_L2, false)
 
-  val matches = new DMatch()
+  val matches = new DMatchVector()
   // "match" is a keyword in Scala, to avoid conflict between a keyword and a method match of the BFMatcher,
   // we need to enclose method name in ticks: `match`.
   matcher.`match`(descriptors(0), descriptors(1), matches)
@@ -72,11 +72,11 @@ object Ex7DescribingSURF extends App {
 
 
   /** Select only the best matches from the list. Return new list. */
-  private def selectBest(matches: DMatch, numberToSelect: Int): DMatch = {
+  private def selectBest(matches: DMatchVector, numberToSelect: Int): DMatchVector = {
     // Convert to Scala collection, and sort
     val sorted = toArray(matches).sortWith(_ lessThan _)
 
     // Select the best, and return in native vector
-    toNativeVector(sorted.take(numberToSelect))
+    toVector(sorted.take(numberToSelect))
   }
 }

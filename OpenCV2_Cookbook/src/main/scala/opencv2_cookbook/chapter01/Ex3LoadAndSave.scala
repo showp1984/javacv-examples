@@ -9,7 +9,8 @@ package opencv2_cookbook.chapter01
 import javax.swing.JFrame._
 
 import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_imgcodecs._
+import org.bytedeco.javacpp.opencv_imgproc._
 import org.bytedeco.javacv.{CanvasFrame, OpenCVFrameConverter}
 
 /**

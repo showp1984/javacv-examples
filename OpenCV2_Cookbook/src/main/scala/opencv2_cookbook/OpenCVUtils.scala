@@ -14,10 +14,10 @@ import java.io.{File, FileNotFoundException, IOException}
 import javax.swing.JFrame
 
 import org.bytedeco.javacpp.Pointer
-import org.bytedeco.javacpp.helper.opencv_core.CvArr
+import org.bytedeco.javacpp.helper.opencv_core._
 import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_features2d.{DMatch, KeyPoint}
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_imgcodecs._
+import org.bytedeco.javacpp.opencv_imgproc._
 import org.bytedeco.javacv.OpenCVFrameConverter.ToMat
 import org.bytedeco.javacv.{CanvasFrame, Java2DFrameConverter, OpenCVFrameConverter}
 
@@ -280,6 +280,53 @@ object OpenCVUtils {
     points
   }
 
+  /** Convert native vector to JVM array.
+    *
+    * @param keyPoints pointer to a native vector containing KeyPoints.
+    */
+  def toArray(keyPoints: KeyPointVector): Array[KeyPoint] = {
+    // for the simplicity of the implementation we will assume that number of key points is within Int range.
+    require(keyPoints.size() <= Int.MaxValue)
+    val n = keyPoints.size().toInt
+
+    // Convert keyPoints to Scala sequence
+    for (i <- Array.range(0, n)) yield new KeyPoint(keyPoints.get(i))
+  }
+
+  /** Convert native vector to JVM array.
+    *
+    * @param matches pointer to a native vector containing DMatches.
+    * @return
+    */
+  def toArray(matches: DMatch): Array[DMatch] = {
+    val oldPosition = matches.position()
+    val result = new Array[DMatch](matches.capacity())
+    for (i <- result.indices) {
+      val src = matches.position(i)
+      val dest = new DMatch()
+      copy(src, dest)
+      result(i) = dest
+    }
+    // Reset position explicitly to avoid issues from other uses of this position-based container.
+    matches.position(oldPosition)
+
+    result
+  }
+
+  /** Convert native vector to JVM array.
+    *
+    * @param matches pointer to a native vector containing DMatches.
+    * @return
+    */
+  def toArray(matches: DMatchVector): Array[DMatch] = {
+    // for the simplicity of the implementation we will assume that number of key points is within Int range.
+    require(matches.size() <= Int.MaxValue)
+    val n = matches.size().toInt
+
+    // Convert keyPoints to Scala sequence
+    for (i <- Array.range(0, n)) yield new DMatch(matches.get(i))
+  }
+
   def toBufferedImage(ipl: IplImage): BufferedImage = {
     val openCVConverter = new OpenCVFrameConverter.ToIplImage()
     val java2DConverter = new Java2DFrameConverter()
@@ -294,7 +341,12 @@ object OpenCVUtils {
 
   /** Draw circles at key point locations on an image. Circle radius is proportional to key point size. */
   def drawOnImage(image: Mat, points: KeyPoint): Image = {
-    drawOnImage(image.asIplImage(), toArray(points))
+    drawOnImage(new IplImage(image), toArray(points))
+  }
+
+  /** Draw circles at key point locations on an image. Circle radius is proportional to key point size. */
+  def drawOnImage(image: Mat, points: KeyPointVector): Image = {
+    drawOnImage(new IplImage(image), toArray(points))
   }
 
   /** Draw a shape on an image.
@@ -374,26 +426,6 @@ object OpenCVUtils {
     val imageScaled = cvCreateImage(cvGetSize(image), IPL_DEPTH_32F, image.nChannels)
     cvConvertScale(image, imageScaled, scale, 0)
     imageScaled
-  }
-
-  /** Convert native vector to JVM array.
-    *
-    * @param matches pointer to a native vector containing DMatches.
-    * @return
-    */
-  def toArray(matches: DMatch): Array[DMatch] = {
-    val oldPosition = matches.position()
-    val result = new Array[DMatch](matches.capacity())
-    for (i <- result.indices) {
-      val src = matches.position(i)
-      val dest = new DMatch()
-      copy(src, dest)
-      result(i) = dest
-    }
-    // Reset position explicitly to avoid issues from other uses of this position-based container.
-    matches.position(oldPosition)
-
-    result
   }
 
   /** Convert between two OpenCV representations of points.
@@ -527,16 +559,9 @@ object OpenCVUtils {
     * @param src Scala collection
     * @return JavaCV/native collection
     */
-  def toNativeVector(src: Array[DMatch]): DMatch = {
-    val dest = new DMatch(src.length)
-    for (i <- src.indices) {
-      // Since there is no way to `put` objects into a vector DMatch,
-      // We have to reassign all values individually, and hope that API will not any new ones.
-      copy(src(i), dest.position(i))
-    }
-    // Set position to 0 explicitly to avoid issues from other uses of this position-based container.
-    dest.position(0)
-
+  def toVector(src: Array[DMatch]): DMatchVector = {
+    val dest = new DMatchVector(src.length)
+    for (i <- src.indices) dest.put(i, src(i))
     dest
   }
 
@@ -556,7 +581,10 @@ object OpenCVUtils {
    */
   def toCvPoint2D32f(p: Point2f): CvPoint2D32f = {
     val ref = p.position()
-    val p1 = for (i <- 0 until p.capacity()) yield p.position(i).asCvPoint2D32f()
+    val p1 = for (i <- 0 until p.capacity()) yield {
+      val pp = p.position(i)
+      new CvPoint2D32f(pp.x, pp.y)
+    }
     p.position(ref)
     toNativeVector(p1.toArray)
   }

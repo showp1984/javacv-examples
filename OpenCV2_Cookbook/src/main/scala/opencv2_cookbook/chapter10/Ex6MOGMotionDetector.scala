@@ -11,9 +11,9 @@ import javax.swing.JFrame
 
 import opencv2_cookbook.OpenCVUtils._
 import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_highgui._
 import org.bytedeco.javacpp.opencv_imgproc._
-import org.bytedeco.javacpp.opencv_video.BackgroundSubtractorMOG
+import org.bytedeco.javacpp.opencv_video.BackgroundSubtractorMOG2
+import org.bytedeco.javacpp.opencv_videoio._
 import org.bytedeco.javacv.CanvasFrame
 
 
@@ -42,7 +42,7 @@ object Ex6MOGMotionDetector extends App {
   val delay = math.round(1000d / cvGetCaptureProperty(capture, CV_CAP_PROP_FPS))
 
   // Mixture of Gaussians approach
-  val mog = new BackgroundSubtractorMOG()
+  val mog = new BackgroundSubtractorMOG2()
 
   // Read frame by frame, stop early if the display window is closed
   var frame: IplImage = null

@@ -9,7 +9,7 @@ package opencv2_cookbook.chapter04
 import java.io.File
 
 import opencv2_cookbook.OpenCVUtils._
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_imgcodecs._
 
 /**
  * The second example for section "Computing the image histogram" in Chapter 4, page 92.

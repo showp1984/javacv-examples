@@ -8,14 +8,15 @@ package opencv2_cookbook.chapter01
 
 import javax.swing.JFrame._
 
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_imgcodecs._
 import org.bytedeco.javacv.{CanvasFrame, OpenCVFrameConverter}
 
 
-/** Example of loading and displaying and image  using JavaCV API,
-  * corresponds to C++ example in Chapter 1 page 18.
-  * Please note how in the Scala example code CanvasFrame from JavaCV API is used to display the image.
-  */
+/**
+ * Example of loading and displaying and image  using JavaCV API,
+ * corresponds to C++ example in Chapter 1 page 18.
+ * Please note how in the Scala example code CanvasFrame from JavaCV API is used to display the image.
+ */
 object Ex1MyFirstOpenCVApp extends App {
 
   // Read an image

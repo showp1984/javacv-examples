@@ -9,7 +9,8 @@ package opencv2_cookbook.chapter08
 import java.io.File
 
 import opencv2_cookbook.OpenCVUtils._
-import org.bytedeco.javacpp.opencv_features2d.{GFTTDetector, KeyPoint}
+import org.bytedeco.javacpp.opencv_core.KeyPointVector
+import org.bytedeco.javacpp.opencv_features2d.GFTTDetector
 
 
 /**
@@ -23,7 +24,7 @@ object Ex3GoodFeaturesToTrack extends App {
   val image = loadAndShowOrExit(new File("data/church01.jpg"))
 
   // Compute good features to track
-  val gftt = new GFTTDetector(
+  val gftt = GFTTDetector.create(
     500 /* maximum number of corners to be returned */ ,
     0.01 /* quality level*/ ,
     10.0 /* minimum allowed distance between points*/ ,
@@ -31,7 +32,7 @@ object Ex3GoodFeaturesToTrack extends App {
     false /* use Harris detector*/ ,
     0.04 /* Harris parameter */
   )
-  val keyPoints = new KeyPoint()
+  val keyPoints = new KeyPointVector()
   gftt.detect(image, keyPoints)
 
   // Draw keyPoints

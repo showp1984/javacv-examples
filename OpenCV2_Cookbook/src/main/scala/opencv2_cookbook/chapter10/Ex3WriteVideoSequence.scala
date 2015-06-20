@@ -7,9 +7,10 @@
 package opencv2_cookbook.chapter10
 
 import java.io.File
-import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_highgui._
+
+import org.bytedeco.javacpp.opencv_core.{IplImage, cvCreateImage, cvGetSize}
 import org.bytedeco.javacpp.opencv_imgproc._
+import org.bytedeco.javacpp.opencv_videoio._
 
 
 /** The example for section "Writing video sequences" in Chapter 10, page 261.

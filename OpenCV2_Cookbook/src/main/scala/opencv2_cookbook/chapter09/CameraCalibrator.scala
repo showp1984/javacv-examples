@@ -13,7 +13,7 @@ import opencv2_cookbook.OpenCVUtils._
 import org.bytedeco.javacpp.helper.opencv_core.AbstractCvScalar
 import org.bytedeco.javacpp.opencv_calib3d._
 import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_imgcodecs._
 import org.bytedeco.javacpp.opencv_imgproc._
 import org.bytedeco.javacv.CanvasFrame
 
@@ -129,8 +129,8 @@ class CameraCalibrator {
     val (objectPointsCvMat, imagePointsCvMat, pointsCountsCvMat) = convertPoints()
 
     //Output rotations and translations
-    val rotationVectors = new CvMat(null)
-    val translationVectors = new CvMat(null)
+    val rotationVectors = new CvMat()
+    val translationVectors = new CvMat()
     cvCalibrateCamera2(
       objectPointsCvMat, // the 3D points
       imagePointsCvMat, // the image points

@@ -10,6 +10,7 @@ package opencv2_cookbook.chapter07
 import org.bytedeco.javacpp.helper.opencv_core._
 import org.bytedeco.javacpp.opencv_core._
 import org.bytedeco.javacpp.opencv_imgproc._
+
 import scala.math._
 
 /**
@@ -40,7 +41,7 @@ class LineFinder(val deltaRho: Double = 1,
         // Hough transform for line detection
         val storage = cvCreateMemStorage(0)
         lines = cvHoughLines2(binary, storage,
-            CV_HOUGH_PROBABILISTIC, deltaRho, deltaTheta, minVotes, minLength, minGap)
+          CV_HOUGH_PROBABILISTIC, deltaRho, deltaTheta, minVotes, minLength, minGap, 0, CV_PI)
     }
 
 

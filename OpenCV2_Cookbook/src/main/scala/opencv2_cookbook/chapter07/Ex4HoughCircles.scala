@@ -11,7 +11,7 @@ import java.io.File
 import opencv2_cookbook.OpenCVUtils._
 import org.bytedeco.javacpp.helper.opencv_core._
 import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_imgcodecs._
 import org.bytedeco.javacpp.opencv_imgproc._
 
 
@@ -46,12 +46,12 @@ object Ex4HoughCircles extends App {
   val votes = 100
   val minRadius = 25
   val maxRadius = 100
-  val circles = cvHoughCircles(smooth.asIplImage(), storage, CV_HOUGH_GRADIENT,
+  val circles = cvHoughCircles(new IplImage(smooth), storage, CV_HOUGH_GRADIENT,
     dp, minDist, highThreshold, votes, minRadius, maxRadius)
 
 
   // Draw lines on the canny contour image
-  val srcIpl = src.asIplImage()
+  val srcIpl = new IplImage(src)
   val colorDst = cvCreateImage(cvGetSize(srcIpl), srcIpl.depth(), 3)
   cvCvtColor(srcIpl, colorDst, CV_GRAY2BGR)
   for (i <- 0 until circles.total) {

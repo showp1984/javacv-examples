@@ -13,7 +13,7 @@ import org.bytedeco.javacpp.Loader
 import org.bytedeco.javacpp.helper.opencv_core.AbstractCvScalar._
 import org.bytedeco.javacpp.helper.{opencv_imgproc => imgproc}
 import org.bytedeco.javacpp.opencv_core._
-import org.bytedeco.javacpp.opencv_highgui._
+import org.bytedeco.javacpp.opencv_imgcodecs._
 import org.bytedeco.javacpp.opencv_imgproc._
 
 import scala.collection.mutable.ListBuffer
